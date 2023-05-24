@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { UsersModule } from 'src/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -12,6 +13,15 @@ import { jwtConstants } from './constants';
       global: true,
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '60s' },
+    }),
+
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'nest_study.db',
+      autoLoadEntities: true,
+      synchronize: true,
+      logging: true,
+      dropSchema: true,
     }),
   ],
   controllers: [AuthController],
